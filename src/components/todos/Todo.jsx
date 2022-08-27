@@ -29,7 +29,7 @@ const Todo = ({ id, start, end, deliveryTime, address, number, comment, setTodos
                     {end && <p className="ended">Завершён: {end}</p>}
                 </div>
                 <p>Адрес: {address}</p>
-                <p>Телефон: {number}</p>
+                <p>Телефон: <a href={"tel:" + number}>{number}</a></p>
                 <p>Комментария: {comment}</p>
             </div>
             <div onClick={() => deleteTodo(id)}>
