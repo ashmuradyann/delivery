@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from 'react'
 
-function App() {
+import Form from './components/form/Form'
+import Todos from './components/todos/Todos'
+
+import './App.scss'
+
+const LOCAL_STORAGE_KEY = 'delivery'
+
+const App = () => {
+
+  const [todos, setTodos] = useState([])
+
+  useEffect(() => {
+    const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
+    if (storedTodos) setTodos(storedTodos)
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos))
+  }, [todos])
+
+  const deleteTodo = (id) => {
+    setTodos(todos.filter(el => id != el.id))
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="main">
+      <Form todos={todos} setTodos={setTodos} />
+      <Todos todos={todos} deleteTodo={deleteTodo} setTodos={setTodos} />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
