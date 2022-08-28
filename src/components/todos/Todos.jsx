@@ -15,6 +15,7 @@ const Todos = ({ todos, setTodos, deleteTodo, toggle, filtered }) => {
     console.log(todos)
     return (
         <div className="todos">
+            {!todos && <h2>Нету заказов по этой дате</h2>}
             {todos?.map(({ id, start, end, deliveryTime, address, number, comment }) => {
                 return <Todo
                     key={id}
