@@ -15,11 +15,15 @@ const App = () => {
 
   useEffect(() => {
     const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
-    if (storedTodos) setTodos(storedTodos)
+    if (storedTodos) {
+      setTodos(storedTodos)
+      setFiltered(storedTodos)
+    }
   }, [])
-
+  
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos))
+    setFiltered(todos)
   }, [todos])
 
   const deleteTodo = (id) => {
@@ -29,7 +33,7 @@ const App = () => {
   return (
     <div className="main">
       <Form todos={todos} setTodos={setTodos} toggle={toggle} setToggle={setToggle} filtered={filtered} setFiltered={setFiltered} />
-      <Todos todos={toggle ? filtered : todos} deleteTodo={deleteTodo} setTodos={setTodos} />
+      <Todos todos={toggle ? filtered : todos} filtered={filtered} toggle={toggle} deleteTodo={deleteTodo} setTodos={setTodos} />
     </div>
   )
 }

@@ -4,7 +4,7 @@ import { FormInputLabel, TextareaLabel, Input, Textarea, Group } from './Input.j
 
 import './form.scss'
 
-const Form = ({ todos, setTodos, toggle, setToggle, filtered, setFiltered }) => {
+const Form = ({ todos, setTodos, toggle, setToggle, setFiltered }) => {
 
     const [forms, setForms] = useState({
         deliveryTime: "",
@@ -20,12 +20,12 @@ const Form = ({ todos, setTodos, toggle, setToggle, filtered, setFiltered }) => 
 
     const handleFilter = (e) => {
         const { name, value } = e.target
-        setFilterValue({...filterValue, [name]: value})
+        setFilterValue({ ...filterValue, [name]: value })
         setFiltered(todos.filter(el => {
             if (name === "startDate") {
-                return el.start.startsWith(value)
+                return el.created.startsWith(value)
             } else if (name === "byComment") {
-                return el.comment.startsWith(value)
+                return el.comment.contains(value)
             }
         }))
     }
@@ -50,6 +50,7 @@ const Form = ({ todos, setTodos, toggle, setToggle, filtered, setFiltered }) => 
         setTodos([
             {
                 id: Math.random(),
+                created: (new Date).toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: '2-digit' }),
                 start: "",
                 end: "",
                 deliveryTime: forms.deliveryTime,
@@ -69,39 +70,34 @@ const Form = ({ todos, setTodos, toggle, setToggle, filtered, setFiltered }) => 
 
     return (
         <div className="form">
-            {/* <div className="button" onClick={() => setToggle(!toggle)}>
+            <div className="button" onClick={() => setToggle(!toggle)}>
                 {toggle ? <p>Создание</p> : <p>Найти</p>}
-            </div> */}
-            {toggle ? <>
-                <Group>
-                    <Input type="text" name="startDate" value={filterValue.startDate.endsWith(":") ? filterValue.startDate.slice(0, -1) : filterValue.startDate} onChange={handleFilter} />
-                    <FormInputLabel shrink={filterValue.length}>Время доставки</FormInputLabel>
-                </Group>
-                <Group>
-                    <Input type="text" name="byComment" value={filterValue.byComment} onChange={handleFilter} />
-                    <FormInputLabel shrink={filterValue.length}>По комментарии</FormInputLabel>
-                </Group>
-            </> : <>
-                <Group>
-                    <Input type="text" name="deliveryTime" value={forms.deliveryTime.endsWith(":") ? forms.deliveryTime.slice(0, -1) : forms.deliveryTime} onChange={handleChange} />
-                    <FormInputLabel shrink={forms.deliveryTime.length}>Время доставки</FormInputLabel>
-                </Group>
-                <Group>
-                    <Input type="text" name="address" value={forms.address} onChange={handleChange} />
-                    <FormInputLabel shrink={forms.address.length}>Адрес</FormInputLabel>
-                </Group>
-                <Group>
-                    <Input type="text" value={forms.number !== "+7" ? forms.number : ""} onChange={phoneNumberHandleChange} />
-                    <FormInputLabel shrink={forms.number.length}>Телефон</FormInputLabel>
-                </Group>
-                <Group>
-                    <Textarea name="comment" value={forms.comment} onChange={handleChange} />
-                    <TextareaLabel shrink={forms.comment.length}>Комментарии</TextareaLabel>
-                </Group>
-                <div className="button" onClick={submit}>
-                    <p>Создать</p>
-                </div>
-            </>}
+            </div>
+            {toggle ? <Group>
+                <Input type="text" name="startDate" value={filterValue.startDate.endsWith(":") ? filterValue.startDate.slice(0, -1) : filterValue.startDate} onChange={handleFilter} />
+                <FormInputLabel shrink={filterValue.length}>Время доставки</FormInputLabel>
+            </Group>
+                : <>
+                    <Group>
+                        <Input type="text" name="deliveryTime" value={forms.deliveryTime.endsWith(":") ? forms.deliveryTime.slice(0, -1) : forms.deliveryTime} onChange={handleChange} />
+                        <FormInputLabel shrink={forms.deliveryTime.length}>Время доставки</FormInputLabel>
+                    </Group>
+                    <Group>
+                        <Input type="text" name="address" value={forms.address} onChange={handleChange} />
+                        <FormInputLabel shrink={forms.address.length}>Адрес</FormInputLabel>
+                    </Group>
+                    <Group>
+                        <Input type="text" value={forms.number !== "+7" ? forms.number : ""} onChange={phoneNumberHandleChange} />
+                        <FormInputLabel shrink={forms.number.length}>Телефон</FormInputLabel>
+                    </Group>
+                    <Group>
+                        <Textarea name="comment" value={forms.comment} onChange={handleChange} />
+                        <TextareaLabel shrink={forms.comment.length}>Комментарии</TextareaLabel>
+                    </Group>
+                    <div className="button" onClick={submit}>
+                        <p>Создать</p>
+                    </div>
+                </>}
         </div>
     )
 }

@@ -7,6 +7,7 @@ const Todo = ({ id, start, end, deliveryTime, address, number, comment, setTodos
             if (el.id === id) {
                 return {
                     id: el.id,
+                    created: el.created,
                     start: type === "START" ? date : el.start,
                     end: type === "END" ? date : el.end,
                     deliveryTime: el.deliveryTime,
