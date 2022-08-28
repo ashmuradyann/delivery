@@ -27,7 +27,7 @@ const Todo = ({ id, start, end, deliveryTime, address, number, comment, setTodos
                     {start && <p className="started">Начало: {start}</p>}
                     {end && <p className="ended">Завершён: {end}</p>}
                 </div>
-                <p className="address" onDoubleClick={() => navigator.clipboard.writeText(address)}>Адрес: {address}</p>
+                <p>Адрес: {address}</p>
                 <p>Телефон: <a href={"tel:" + number}>{number}</a></p>
                 <p>Комментария: {comment}</p>
             </div>
@@ -36,6 +36,7 @@ const Todo = ({ id, start, end, deliveryTime, address, number, comment, setTodos
             </div>
         </div>
         <div className="buttons">
+            <div onClick={() => navigator.clipboard.writeText(address)}>Адрес</div>
             <div onClick={() => getTime(id, "START")}>Начало</div>
             <div onClick={() => getTime(id, "END")}>Завершение</div>
         </div>
