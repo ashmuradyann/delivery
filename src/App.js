@@ -10,6 +10,8 @@ const LOCAL_STORAGE_KEY = 'delivery'
 const App = () => {
 
   const [todos, setTodos] = useState([])
+  const [filtered, setFiltered] = useState([])
+  const [toggle, setToggle] = useState(false)
 
   useEffect(() => {
     const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
@@ -21,13 +23,13 @@ const App = () => {
   }, [todos])
 
   const deleteTodo = (id) => {
-    setTodos(todos.filter(el => id != el.id))
+    setTodos(todos.filter(el => id !== el.id))
   }
 
   return (
     <div className="main">
-      <Form todos={todos} setTodos={setTodos} />
-      <Todos todos={todos} deleteTodo={deleteTodo} setTodos={setTodos} />
+      <Form todos={todos} setTodos={setTodos} toggle={toggle} setToggle={setToggle} filtered={filtered} setFiltered={setFiltered} />
+      <Todos todos={toggle ? filtered : todos} deleteTodo={deleteTodo} setTodos={setTodos} />
     </div>
   )
 }

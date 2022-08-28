@@ -1,4 +1,3 @@
-import { useState } from 'react'
 
 const Todo = ({ id, start, end, deliveryTime, address, number, comment, setTodos, deleteTodo }) => {
 
@@ -23,17 +22,17 @@ const Todo = ({ id, start, end, deliveryTime, address, number, comment, setTodos
     return <div className="todo">
         <div className="todo-header">
             <div>
-                <p>Время доставки: {deliveryTime}</p>
+                <p>Время доставки: {deliveryTime.endsWith(":") ? deliveryTime.slice(0, -1) : deliveryTime}</p>
                 <div>
                     {start && <p className="started">Начало: {start}</p>}
                     {end && <p className="ended">Завершён: {end}</p>}
                 </div>
-                <p>Адрес: {address}</p>
+                <p className="address" onDoubleClick={() => navigator.clipboard.writeText(address)}>Адрес: {address}</p>
                 <p>Телефон: <a href={"tel:" + number}>{number}</a></p>
                 <p>Комментария: {comment}</p>
             </div>
             <div onClick={() => deleteTodo(id)}>
-                <img src="https://img.icons8.com/ios-glyphs/30/ff0000/filled-trash.svg" />
+                <img src="https://img.icons8.com/ios-glyphs/30/ff0000/filled-trash.svg" alt="delte-logo" />
             </div>
         </div>
         <div className="buttons">

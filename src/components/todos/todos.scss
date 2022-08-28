@@ -18,6 +18,13 @@
         box-shadow: 0px 0px 20px 5px rgba(34, 60, 80, 0.2);
         font-weight: bold;
 
+        p {
+            &.address {
+                font-size: 1.3rem;
+                margin: 10px 0;
+            }
+        }
+
         .todo-header {
             display: flex;
             justify-content: space-between;
