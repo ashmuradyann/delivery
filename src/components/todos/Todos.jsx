@@ -6,13 +6,11 @@ import './todos.scss'
 
 const Todos = ({ todos, setTodos, deleteTodo, toggle, filtered }) => {
     const today = (new Date).toLocaleTimeString(navigator.language, { day: '2-digit', month: '2-digit', year: '2-digit' }).slice(0, -10)
-
+    
     todos = toggle ? filtered : todos?.filter((el) => {
-        console.log(el.created, today)
         return el.created.startsWith(today)
     })
 
-    console.log(todos)
     return (
         <div className="todos">
             {!todos && <h2>Нету заказов по этой дате</h2>}

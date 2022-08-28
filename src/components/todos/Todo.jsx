@@ -2,7 +2,7 @@
 const Todo = ({ id, start, end, deliveryTime, address, number, comment, setTodos, deleteTodo }) => {
 
     const getTime = (id, type) => {
-        const date = (new Date).toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: '2-digit'})
+        const date = (new Date).toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: '2-digit' })
         setTodos(todos => todos.map(el => {
             if (el.id === id) {
                 return {
@@ -37,9 +37,9 @@ const Todo = ({ id, start, end, deliveryTime, address, number, comment, setTodos
             </div>
         </div>
         <div className="buttons">
-            <div onClick={() => navigator.clipboard.writeText(address)}>Адрес</div>
-            <div onClick={() => getTime(id, "START")}>Начало</div>
-            <div onClick={() => getTime(id, "END")}>Завершение</div>
+            <button onClick={() => navigator.clipboard.writeText(address)}>Адрес</button>
+            <button onClick={() => getTime(id, "START")}>Начало</button>
+            <button onClick={() => getTime(id, "END")}>Завершение</button>
         </div>
     </div>
 }

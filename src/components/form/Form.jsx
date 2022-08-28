@@ -13,21 +13,11 @@ const Form = ({ todos, setTodos, toggle, setToggle, setFiltered }) => {
         comment: ""
     })
 
-    const [filterValue, setFilterValue] = useState({
-        startDate: "",
-        byComment: ""
-    })
+    const [filterValue, setFilterValue] = useState("")
 
     const handleFilter = (e) => {
-        const { name, value } = e.target
-        setFilterValue({ ...filterValue, [name]: value })
-        setFiltered(todos.filter(el => {
-            if (name === "startDate") {
-                return el.created.startsWith(value)
-            } else if (name === "byComment") {
-                return el.comment.contains(value)
-            }
-        }))
+        setFilterValue(e.target.value)
+        setFiltered(todos.filter(el => el.created.startsWith(e.target.value)))
     }
 
     const handleChange = (e) => {
@@ -70,34 +60,34 @@ const Form = ({ todos, setTodos, toggle, setToggle, setFiltered }) => {
 
     return (
         <div className="form">
-            <div className="button" onClick={() => setToggle(!toggle)}>
-                {toggle ? <p>Создание</p> : <p>Найти</p>}
-            </div>
-            {toggle ? <Group>
-                <Input type="text" name="startDate" value={filterValue.startDate.endsWith(":") ? filterValue.startDate.slice(0, -1) : filterValue.startDate} onChange={handleFilter} />
-                <FormInputLabel shrink={filterValue.length}>Время доставки</FormInputLabel>
-            </Group>
-                : <>
-                    <Group>
-                        <Input type="text" name="deliveryTime" value={forms.deliveryTime.endsWith(":") ? forms.deliveryTime.slice(0, -1) : forms.deliveryTime} onChange={handleChange} />
-                        <FormInputLabel shrink={forms.deliveryTime.length}>Время доставки</FormInputLabel>
-                    </Group>
-                    <Group>
-                        <Input type="text" name="address" value={forms.address} onChange={handleChange} />
-                        <FormInputLabel shrink={forms.address.length}>Адрес</FormInputLabel>
-                    </Group>
-                    <Group>
-                        <Input type="text" value={forms.number !== "+7" ? forms.number : ""} onChange={phoneNumberHandleChange} />
-                        <FormInputLabel shrink={forms.number.length}>Телефон</FormInputLabel>
-                    </Group>
-                    <Group>
-                        <Textarea name="comment" value={forms.comment} onChange={handleChange} />
-                        <TextareaLabel shrink={forms.comment.length}>Комментарии</TextareaLabel>
-                    </Group>
-                    <div className="button" onClick={submit}>
-                        <p>Создать</p>
-                    </div>
-                </>}
+            {toggle ? <>
+                <button onClick={() => setToggle(!toggle)}>Назад</button>
+                <Group>
+                    <Input type="text" value={filterValue.endsWith(":") ? filterValue.slice(0, -1) : filterValue} onChange={handleFilter} />
+                    <FormInputLabel shrink={filterValue.length}>Время создания</FormInputLabel>
+                </Group>
+            </> : <>
+                <Group>
+                    <Input type="text" name="deliveryTime" value={forms.deliveryTime.endsWith(":") ? forms.deliveryTime.slice(0, -1) : forms.deliveryTime} onChange={handleChange} />
+                    <FormInputLabel shrink={forms.deliveryTime.length}>Время доставки</FormInputLabel>
+                </Group>
+                <Group>
+                    <Input type="text" name="address" value={forms.address} onChange={handleChange} />
+                    <FormInputLabel shrink={forms.address.length}>Адрес</FormInputLabel>
+                </Group>
+                <Group>
+                    <Input type="text" value={forms.number !== "+7" ? forms.number : ""} onChange={phoneNumberHandleChange} />
+                    <FormInputLabel shrink={forms.number.length}>Телефон</FormInputLabel>
+                </Group>
+                <Group>
+                    <Textarea name="comment" value={forms.comment} onChange={handleChange} />
+                    <TextareaLabel shrink={forms.comment.length}>Комментарии</TextareaLabel>
+                </Group>
+                <div className="buttons">
+                    <button onClick={() => setToggle(!toggle)}>Найти</button>
+                    <button onClick={submit}>Создать</button>
+                </div>
+            </>}
         </div>
     )
 }
