@@ -1,5 +1,5 @@
 
-const Todo = ({ id, start, end, deliveryTime, address, number, comment, setTodos, deleteTodo }) => {
+const Todo = ({ id, start, end, deliveryTime, address, number, comment, setTodos, deleteTodo, setEditCardId }) => {
 
     const getTime = (id, type) => {
         const date = (new Date).toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: '2-digit' })
@@ -32,8 +32,10 @@ const Todo = ({ id, start, end, deliveryTime, address, number, comment, setTodos
                 <p>Телефон: <a href={"tel:" + number}>{number}</a></p>
                 <p>Комментария: {comment}</p>
             </div>
-            <div onClick={() => deleteTodo(id)}>
-                <img src="https://img.icons8.com/ios-glyphs/30/ff0000/filled-trash.svg" alt="delte-logo" />
+            <div>
+                {/* <img src="https://img.icons8.com/ios-glyphs/30/ff0000/filled-trash.svg" alt="delte-logo" /> */}
+                <button className="deleteBtn" onClick={() => deleteTodo(id)}>Удалить</button>
+                <button className="editBtn" onClick={() => setEditCardId(id)}>Изменить</button>
             </div>
         </div>
         <div className="buttons">

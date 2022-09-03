@@ -35,22 +35,56 @@
 
             div:last-child {
                 display: flex;
-                justify-content: center;
+                flex-direction: column;
+                justify-content: space-around;
                 align-items: center;
 
+                button {
+                    border: 2px solid #fff;
+                    width: fit-content;
+                    padding: 0 20px;
+                    height: 50px;
+                    font-size: 1rem;
+                    font-weight: bold;
+                    color: #fff;
+                    border-radius: 25px;
+                    cursor: pointer;
+                    transition: .2s;
+
+                    &.deleteBtn {
+                        background-color: rgb(211, 25, 25);
+                        border: 2px solid rgb(211, 25, 25);
+                        margin-bottom: 5px;
+                        
+                        &:hover {
+                            background-color: #fff;
+                            border: 2px solid rgb(211, 25, 25);
+                            color: rgb(211, 25, 25);
+                        }
+                    }
+
+                    &.editBtn {
+                        background-color: rgb(209, 163, 10);
+                        border: 2px solid rgb(209, 163, 10);
+                        
+                        &:hover {
+                            background-color: #fff;
+                            border: 2px solid rgb(209, 163, 10);
+                            color: rgb(209, 163, 10);
+                        }
+                    }
+                }
             }
         }
 
         .buttons {
-            margin-top: 20px;
             display: flex;
             justify-content: space-around;
             color: #fff;
 
             button {
-                border: 2px solid #fff;
                 width: fit-content;
-                padding: 0 20px;
+                padding: 0 15px;
                 height: 50px;
                 font-size: 1rem;
                 font-weight: bold;
@@ -59,7 +93,7 @@
                 margin: 10px 0;
                 cursor: pointer;
                 transition: .2s;
-                
+
                 &:first-child {
                     background-color: rgb(25, 91, 167);
                     border: 2px solid rgb(25, 91, 167);
@@ -70,7 +104,7 @@
                         color: rgb(25, 91, 167);
                     }
                 }
-                
+
                 &:nth-of-type(2) {
                     background-color: rgb(28, 141, 28);
                     border: 2px solid rgb(28, 141, 28);
@@ -81,7 +115,7 @@
                         color: rgb(28, 141, 28);
                     }
                 }
-                
+
                 &:last-child {
                     background-color: rgb(209, 163, 10);
                     border: 2px solid rgb(209, 163, 10);

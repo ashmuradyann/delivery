@@ -12,6 +12,9 @@ const App = () => {
   const [todos, setTodos] = useState([])
   const [filtered, setFiltered] = useState([])
   const [toggle, setToggle] = useState(false)
+  const [editCardId, setEditCardId] = useState(null)
+
+  console.log(editCardId)
 
   useEffect(() => {
     const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
@@ -32,8 +35,21 @@ const App = () => {
 
   return (
     <div className="main">
-      <Form todos={todos} setTodos={setTodos} toggle={toggle} setToggle={setToggle} filtered={filtered} setFiltered={setFiltered} />
-      <Todos todos={toggle ? filtered : todos} filtered={filtered} toggle={toggle} deleteTodo={deleteTodo} setTodos={setTodos} />
+      <Form
+        todos={todos}
+        setTodos={setTodos}
+        toggle={toggle}
+        setToggle={setToggle}
+        filtered={filtered}
+        setFiltered={setFiltered}
+        editCardId={editCardId}
+        setEditCardId={setEditCardId} />
+      <Todos
+        todos={toggle ? filtered : todos}
+        setTodos={setTodos}
+        filtered={filtered} toggle={toggle}
+        deleteTodo={deleteTodo}
+        setEditCardId={setEditCardId} />
     </div>
   )
 }

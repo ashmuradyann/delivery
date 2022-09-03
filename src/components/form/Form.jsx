@@ -1,11 +1,14 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import { FormInputLabel, TextareaLabel, Input, Textarea, Group } from './Input.jsx'
 
 import './form.scss'
 
-const Form = ({ todos, setTodos, toggle, setToggle, setFiltered }) => {
+const LOCAL_STORAGE_KEY = 'formValues'
 
+const Form = ({ todos, setTodos, toggle, setToggle, setFiltered, editCardId, setEditCardId }) => {
+
+    const [filterValue, setFilterValue] = useState("")
     const [forms, setForms] = useState({
         deliveryTime: "",
         address: "",
@@ -13,7 +16,30 @@ const Form = ({ todos, setTodos, toggle, setToggle, setFiltered }) => {
         comment: ""
     })
 
-    const [filterValue, setFilterValue] = useState("")
+    useEffect(() => {
+        const formValues = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
+        formValues && setForms(formValues)
+    }, [])
+
+    useEffect(() => {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(forms))
+    }, [forms])
+
+    useEffect(() => {
+        if (editCardId) {
+            todos.map(({ id, deliveryTime, address, number, comment }, i) => {
+                if (editCardId === id) {
+                    setForms({
+                        deliveryTime: deliveryTime,
+                        address: address,
+                        number: number,
+                        comment: comment
+                    })
+                }
+            })
+        }
+    }, [editCardId])
+
 
     const handleFilter = (e) => {
         setFilterValue(e.target.value)
@@ -36,6 +62,16 @@ const Form = ({ todos, setTodos, toggle, setToggle, setFiltered }) => {
         if (e.target.value === "+7") setForms({ ...forms, number: "" })
     }
 
+    const resetForms = () => {
+        setForms({
+            deliveryTime: "",
+            address: "",
+            number: "",
+            comment: ""
+        })
+        editCardId && setEditCardId(null)
+    }
+
     const submit = () => {
         setTodos([
             {
@@ -50,18 +86,35 @@ const Form = ({ todos, setTodos, toggle, setToggle, setFiltered }) => {
             },
             ...todos,
         ])
-        setForms({
-            deliveryTime: "",
-            address: "",
-            number: "",
-            comment: ""
-        })
+        resetForms()
     }
+
+    const acceptChanges = () => {
+        const editedTodos = todos.map((el) => {
+            if (editCardId === el.id) {
+                return {
+                    id: el.id,
+                    created: el.created,
+                    start: el.start,
+                    end: el.end,
+                    deliveryTime: forms.deliveryTime,
+                    address: forms.address,
+                    number: forms.number,
+                    comment: forms.comment
+                }
+            }
+            return el
+        })
+        setTodos(editedTodos)
+        resetForms()
+    }
+
+    const padding = editCardId ? { padding: "0 10px" } : { padding: " 0 20px" }
 
     return (
         <div className="form">
             {toggle ? <>
-                <button onClick={() => setToggle(!toggle)}>Назад</button>
+                <button className="backBtn" onClick={() => setToggle(!toggle)}>Назад</button>
                 <Group>
                     <Input type="text" value={filterValue.endsWith(":") ? filterValue.slice(0, -1) : filterValue} onChange={handleFilter} />
                     <FormInputLabel shrink={filterValue.length}>Время создания</FormInputLabel>
@@ -84,8 +137,13 @@ const Form = ({ todos, setTodos, toggle, setToggle, setFiltered }) => {
                     <TextareaLabel shrink={forms.comment.length}>Комментарии</TextareaLabel>
                 </Group>
                 <div className="buttons">
-                    <button onClick={() => setToggle(!toggle)}>Найти</button>
-                    <button onClick={submit}>Создать</button>
+                    {editCardId ? <>
+                        <button style={padding} onClick={acceptChanges}>Применить</button>
+                        <button style={padding} onClick={resetForms}>Сбросить</button>
+                    </> : <>
+                        <button style={padding} onClick={() => setToggle(!toggle)}>Найти</button>
+                        <button style={padding} onClick={submit}>Создать</button>
+                    </>}
                 </div>
             </>}
         </div>
